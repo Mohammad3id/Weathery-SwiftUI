@@ -1,5 +1,5 @@
 //
-//  WeatherInfo.swift
+//  WeatherSnapshot.swift
 //  Weathery
 //
 //  Created by Mohammad Eid on 17/12/2024.
@@ -73,7 +73,7 @@ extension WeatherSnapshot {
         )
     }
 
-    static func from(response: WeatherForcastResponse) -> [WeatherSnapshot] {
+    static func from(response: WeatherForecastResponse) -> [WeatherSnapshot] {
         response.list.map { day in
             WeatherSnapshot(
                 date: day.dt,
@@ -106,9 +106,9 @@ extension WeatherSnapshot {
 }
 
 extension WeatherSnapshot: Mockable {
-    static var mock: WeatherSnapshot {
+    static private func buildWeatherSnapshot(date: Date) -> WeatherSnapshot {
         WeatherSnapshot(
-            date: Date.now,
+            date: date,
             location: Location(
                 id: 0,
                 name: "Liverpool",
@@ -133,5 +133,21 @@ extension WeatherSnapshot: Mockable {
             pressure: 20,
             visibility: 1000
         )
+    }
+    
+    static var mock: WeatherSnapshot {
+        buildWeatherSnapshot(date: Date.now)
+    }
+    
+    static var mockList: [WeatherSnapshot] {
+        let dates = (1...5).map(
+            {
+                Calendar.current.date(
+                    byAdding: .hour,
+                    value: $0,
+                    to: Date.now
+                )!
+            })
+        return dates.map({buildWeatherSnapshot(date: $0)})
     }
 }

@@ -10,15 +10,10 @@ import CoreLocation
 
 @Observable
 class WeatherController {
-    private let weatherService: WeatherService
-    private let locationManager: LocationManager
+    private let weatherService = WeatherService()
+    private let locationManager = LocationManager()
     
     var state: WeatherScreenState = .loading
-    
-    init(weatherService: WeatherService, locationManager: LocationManager) {
-        self.weatherService = weatherService
-        self.locationManager = locationManager
-    }
     
     @MainActor
     func loadWeatherForCurrentLocation() async {
@@ -40,9 +35,8 @@ class WeatherController {
     @MainActor
     func loadWeatherForLocation(lat: Double, lon: Double) async {
         do {
-            async let current = try await weatherService.getCurrentWeather(lat: lat, lon: lon)
-            async let forcast = try await weatherService.getWeatherForcast(lat: lat, lon: lon)
-            state = .success(currentWeather: try await current, weatherForcast: try await forcast)
+            let weatherReport = try await weatherService.getWeatherReport(lat: lat, lon: lon)
+            state = .success(weatherReport: weatherReport)
         } catch {
             print(error)
             state = .failure(message: error.localizedDescription)
@@ -55,5 +49,5 @@ class WeatherController {
 enum WeatherScreenState {
     case loading
     case failure(message: String)
-    case success(currentWeather: CurrentWeather, weatherForcast: WeatherForcast)
+    case success(weatherReport: WeatherReport)
 }

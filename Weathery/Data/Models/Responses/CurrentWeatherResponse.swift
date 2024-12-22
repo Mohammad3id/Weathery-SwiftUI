@@ -8,11 +8,19 @@ import Foundation
 
 struct CurrentWeatherResponse: Decodable {
     let dt: Date
-    let coord: WeatherCoordinates
-    let weather: [WeatherCondition]
-    let main: WeatherMain
-    let wind: WeatherWind
-    let clouds: WeatherClouds
+    let coord: WeatherResponseStructs.WeatherCoordinates
+    let weather: [WeatherResponseStructs.WeatherCondition]
+    let main: WeatherResponseStructs.WeatherMain
+    let wind: WeatherResponseStructs.WeatherWind
+    let clouds: WeatherResponseStructs.WeatherClouds
     let visibility: Int
     let timezone: Int
+    let id: Int // City id
+    let name: String // City name
+    let sys: Sys
+    struct Sys: Decodable {
+        let country: String
+    }
 }
+
+

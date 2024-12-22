@@ -8,37 +8,66 @@
 import SwiftUI
 import CoreLocation
 
-@Observable
-class WeatherController: NSObject, CLLocationManagerDelegate {
-    let weatherService: WeatherService
-    
+
+class LocationManager: NSObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
-    private var currentLocation: CLLocationCoordinate2D? {
-        didSet {
-            guard let location = currentLocation else { return }
-            Task {
-                currentWeatherData = try? await weatherService.getCurrentWeather(
-                    lat: location.latitude,
-                    lon: location.longitude
-                )
+    
+    private var continuation: CheckedContinuation<CLLocationCoordinate2D, Error>?
+    
+    override init() {
+        super.init()
+        locationManager.delegate = self
+    }
+    
+    func requestLocation(accuracy: CLLocationAccuracy = kCLLocationAccuracyKilometer) async throws -> CLLocationCoordinate2D {
+        locationManager.desiredAccuracy = accuracy
+        return try await withCheckedThrowingContinuation { continuation in
+            guard self.continuation == nil else {
+                continuation.resume(throwing: LocationError.requestInProgress)
+                return;
+            }
+            
+            self.continuation = continuation
+            
+            switch locationManager.authorizationStatus {
+            case .notDetermined:
+                locationManager.requestWhenInUseAuthorization()
+            case .authorizedAlways, .authorizedWhenInUse:
+                locationManager.requestLocation()
+            default:
+                continuation.resume(throwing: LocationError.permissionDenied)
+                self.continuation = nil
             }
         }
     }
     
-    var currentWeatherData: CurrentWeatherRsponse?
-    
-    init(weatherService: WeatherService) {
-        self.weatherService = weatherService
-        
-        super.init()
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations.first?.coordinate
+        if let location = locations.first?.coordinate {
+            continuation?.resume(returning: location)
+        } else {
+            continuation?.resume(throwing: LocationError.noLocationFound)
+        }
+        continuation = nil
     }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        continuation?.resume(throwing: error)
+        continuation = nil
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.requestLocation()
+        default:
+            continuation?.resume(throwing: LocationError.permissionDenied)
+            self.continuation = nil
+        }
+    }
+}
+
+enum LocationError: Error {
+    case noLocationFound
+    case permissionDenied
+    case requestInProgress
 }
