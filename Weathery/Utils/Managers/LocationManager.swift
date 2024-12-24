@@ -11,15 +11,25 @@ import CoreLocation
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
+    private let geocoder = CLGeocoder()
     
-    private var continuation: CheckedContinuation<CLLocationCoordinate2D, Error>?
+    private var continuation: CheckedContinuation<CLLocation, Error>?
     
     override init() {
         super.init()
         locationManager.delegate = self
     }
     
-    func requestLocation(accuracy: CLLocationAccuracy = kCLLocationAccuracyKilometer) async throws -> CLLocationCoordinate2D {
+    func getPlacemark(_ location: CLLocation) async throws -> CLPlacemark {
+        let result = try await geocoder.reverseGeocodeLocation(location)
+        return result.first!
+    }
+    
+    func getPlacemark(latitude: Double, longitude: Double) async throws -> CLPlacemark {
+        try await getPlacemark(CLLocation(latitude: latitude, longitude: longitude))
+    }
+    
+    func requestLocation(accuracy: CLLocationAccuracy = kCLLocationAccuracyKilometer) async throws -> CLLocation {
         locationManager.desiredAccuracy = accuracy
         return try await withCheckedThrowingContinuation { continuation in
             guard self.continuation == nil else {
@@ -43,7 +53,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first?.coordinate {
-            continuation?.resume(returning: location)
+            continuation?.resume(returning: CLLocation(latitude: location.latitude, longitude: location.longitude))
         } else {
             continuation?.resume(throwing: LocationError.noLocationFound)
         }
@@ -70,4 +80,5 @@ enum LocationError: Error {
     case noLocationFound
     case permissionDenied
     case requestInProgress
+    case couldNotGetLocationInfo
 }

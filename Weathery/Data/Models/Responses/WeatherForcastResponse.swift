@@ -17,15 +17,6 @@ struct WeatherForecastResponse: Decodable {
         let visibility: Int
         let pop: Double
     }
-    
-    let city: WeatherCity
-    struct WeatherCity: Decodable {
-        let id: Int
-        let name: String
-        let country: String
-        let timezone: Int
-        let coord: WeatherResponseStructs.WeatherCoordinates
-    }
 }
 
 

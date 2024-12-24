@@ -8,22 +8,29 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var weatherController = WeatherController()
+    @Environment(LocationsController.self) var locationsController
     
     var body: some View {
         NavigationStack {
-            WeatherLoaderView(weatherController) { weather in
+            WeatherLoaderView { weather in
                 ScrollView {
                     VStack(spacing: 16) {
-                        MainWeatherCard(weather: weather.current)
-                        HourlyForecastCard(snapshots: weather.nextHours)
-                        DailyForecastCard(snapshots: weather.nextDays)
+                        MainWeatherCard(weather: weather.info.current, location: weather.location)
+                        HourlyForecastCard(snapshots: weather.info.nextHours)
+                        DailyForecastCard(snapshots: weather.info.nextDays)
                     }
                     .padding()
                 }
             }
             .modifier(SoftBackgroundModifier())
-            .navigationTitle("My location")
+            .navigationTitle(locationsController.selectedLocation?.label ?? "My location")
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink("Locations") {
+                        LocationsView()
+                    }
+                }
+            }
         }
         
     }
@@ -31,4 +38,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environment(LocationsController())
 }

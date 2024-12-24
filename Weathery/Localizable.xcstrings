@@ -98,6 +98,9 @@
         }
       }
     },
+    "Hello, World!" : {
+
+    },
     "Loading" : {
       "localizations" : {
         "ar" : {
@@ -107,6 +110,9 @@
           }
         }
       }
+    },
+    "Locations" : {
+
     },
     "mist" : {
       "extractionState" : "manual",

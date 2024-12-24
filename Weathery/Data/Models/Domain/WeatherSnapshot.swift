@@ -10,16 +10,6 @@ import Foundation
 struct WeatherSnapshot {
     let date: Date
     
-    let location: Location
-    struct Location {
-        let id: Int
-        let name: String
-        let country: String
-        let timezone: Int
-        let latitude: Double
-        let longitude: Double
-    }
-    
     let condition: WeatherCondition
     
     let temperature: Temperature
@@ -47,14 +37,6 @@ extension WeatherSnapshot {
     static func from(response: CurrentWeatherResponse) -> WeatherSnapshot {
         WeatherSnapshot(
             date: response.dt,
-            location: Location(
-                id: response.id,
-                name: response.name,
-                country: response.sys.country,
-                timezone: response.timezone,
-                latitude: response.coord.lat,
-                longitude: response.coord.lon
-            ),
             condition: .from(code: response.weather.first?.id ?? 0),
             temperature: Temperature(
                 actual: response.main.temp,
@@ -77,14 +59,6 @@ extension WeatherSnapshot {
         response.list.map { day in
             WeatherSnapshot(
                 date: day.dt,
-                location: Location(
-                    id: response.city.id,
-                    name: response.city.name,
-                    country: response.city.country,
-                    timezone: response.city.timezone,
-                    latitude: response.city.coord.lat,
-                    longitude: response.city.coord.lon
-                ),
                 condition: .from(code: day.weather.first?.id ?? 0),
                 temperature: Temperature(
                     actual: day.main.temp,
@@ -109,14 +83,6 @@ extension WeatherSnapshot: Mockable {
     static private func buildWeatherSnapshot(date: Date) -> WeatherSnapshot {
         WeatherSnapshot(
             date: date,
-            location: Location(
-                id: 0,
-                name: "Liverpool",
-                country: "GB",
-                timezone: 0,
-                latitude: 0,
-                longitude: 0
-            ),
             condition: .thunderstorm,
             temperature: Temperature(
                 actual: 20,

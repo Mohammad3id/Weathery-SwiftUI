@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct WeatherLoaderView<Content: View>: View {
-    private var weatherController: WeatherController
+    @State var weatherController = WeatherController()
+    @Environment(LocationsController.self) var locationsController
     
     @ViewBuilder let content: (_ weather: WeatherReport) -> Content
     
-    init(_ weatherController: WeatherController, @ViewBuilder content: @escaping (_ weather: WeatherReport) -> Content) {
-        self.weatherController = weatherController
-        self.content = content
-    }
     
     var body: some View {
         Group {
@@ -27,15 +24,25 @@ struct WeatherLoaderView<Content: View>: View {
             case .success(let weatherReport):
                 content(weatherReport)
             }
-        }.task {
-            await weatherController.loadWeatherForCurrentLocation()
+        }.onChange(of: locationsController.selectedLocation, initial: true) { oldValue, newValue in
+            Task {
+                if let selectedLocation = newValue {
+                    await weatherController.loadWeatherForLocation(
+                        latitude: selectedLocation.latitude,
+                        longitude: selectedLocation.longitude
+                    )
+                } else {
+                    await weatherController.loadWeatherForCurrentLocation()
+                }
+            }
         }
     }
 }
 
 #Preview {
-    WeatherLoaderView(WeatherController()) { weather in
+    WeatherLoaderView { weather in
         Text("Hello, World!")
     }
     .modifier(SoftBackgroundModifier())
+    .environment(LocationsController())
 }

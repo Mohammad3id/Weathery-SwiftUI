@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainWeatherCard: View {
     let weather: WeatherSnapshot
+    let location: WeatherReport.Location
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,7 +25,9 @@ struct MainWeatherCard: View {
                     .frame(width: 60, height: 60)
             }
             
-            Label("\(weather.location.name), \(weather.location.country)", systemImage: "mappin.and.ellipse")
+            if let city = location.city, let country = location.country {
+                Label("\(city), \(country)", systemImage: "mappin.and.ellipse")
+            }
             
             Spacer()
                 .frame(height: 18)
@@ -55,6 +58,6 @@ struct MainWeatherCard: View {
 }
 
 #Preview {
-    MainWeatherCard(weather: .mock)
+    MainWeatherCard(weather: .mock, location: .mock)
         .padding()
 }

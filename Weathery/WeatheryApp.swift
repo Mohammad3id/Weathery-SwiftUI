@@ -9,10 +9,12 @@ import SwiftUI
 
 @main
 struct WeatheryApp: App {
+    @State var locationsController = LocationsController()
     
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .environment(locationsController)
         }
     }
 }

@@ -11,32 +11,32 @@ import CoreLocation
 @Observable
 class WeatherController {
     private let weatherService = WeatherService()
-    private let locationManager = LocationManager()
     
     var state: WeatherScreenState = .loading
     
     @MainActor
     func loadWeatherForCurrentLocation() async {
-        let location: CLLocationCoordinate2D
+        let location: CLLocation
         
         do {
-            location = try await locationManager.requestLocation()
+            location = try await LocationManager().requestLocation()
         } catch {
             state = .failure(message: error.localizedDescription)
+            print(error)
             return
         }
         
         await self.loadWeatherForLocation(
-            lat: location.latitude,
-            lon: location.longitude
+            latitude: location.coordinate.latitude,
+            longitude: location.coordinate.longitude
         )
     }
     
     @MainActor
-    func loadWeatherForLocation(lat: Double, lon: Double) async {
+    func loadWeatherForLocation(latitude: Double, longitude: Double) async {
         do {
-            let weatherReport = try await weatherService.getWeatherReport(lat: lat, lon: lon)
-            state = .success(weatherReport: weatherReport)
+            async let weatherReport = weatherService.getWeatherReport(latitude: latitude, longitude: longitude)
+            state = .success(weatherReport: try await weatherReport)
         } catch {
             print(error)
             state = .failure(message: error.localizedDescription)
