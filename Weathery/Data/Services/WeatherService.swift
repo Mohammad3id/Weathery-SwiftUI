@@ -24,7 +24,7 @@ class WeatherService {
         
         return WeatherReport(
             location: WeatherReport.Location(
-                city: placemark.name,
+                city: placemark.locality,
                 country: placemark.country,
                 latitude: latitude,
                 longitude: longitude

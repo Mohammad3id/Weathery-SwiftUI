@@ -111,8 +111,6 @@ class LocationsController {
         } else {
             UserDefaults.standard.removeObject(forKey: selectedLocationKey)
         }
-        
-        print("Saved")
     }
 }
 

@@ -30,7 +30,7 @@ struct HourlyForecastCard: View {
             }
         }
         .padding(24)
-        .background()
+        .background(Color(uiColor: UIColor.secondarySystemBackground))
         .clipShape(.rect(cornerRadius: 20))
     }
     

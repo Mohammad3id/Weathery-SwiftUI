@@ -20,10 +20,24 @@ struct LocationsView: View {
         @Bindable var locationsController = locationsController
         
         List {
-            LocationListItem()
+            LocationListItem(
+                label: "Current location",
+                isSelected: locationsController.selectedLocationIndex == nil
+            ) {
+                locationsController.selectedLocationIndex = nil
+            }
             
-            ForEach(locationsController.locations.indices, id: \.self) { index in
-                LocationListItem(index: index)
+            ForEach(Array(locationsController.locations.enumerated()), id: \.element) { index, location in
+                LocationListItem(
+                    label: location.label,
+                    isSelected: locationsController.selectedLocationIndex == index
+                ) {
+                    locationsController.selectedLocationIndex = index
+                }
+            }.onDelete { indexSet in
+                if let index = indexSet.first {
+                    locationsController.delete(locationIndex: index)
+                }
             }
         }
         .foregroundStyle(.foreground)
@@ -41,19 +55,23 @@ struct LocationsView: View {
 }
 
 struct LocationListItem: View {
-    @Environment(LocationsController.self) var locationsController
-    var index: Int?
+    let label: String
+    let isSelected: Bool
+    let onTap: () -> Void
+    
+//    @Environment(LocationsController.self) var locationsController
+//    var index: Int?
     
     var body: some View {
-        let location = index == nil ? nil : locationsController.locations[index!]
+//        let location = index == nil ? nil : locationsController.locations[index!]
         
         Button {
-            locationsController.selectedLocationIndex = index
+            onTap()
         } label: {
             HStack {
-                Text(location?.label ?? "Current location")
+                Text(label)
                 Spacer()
-                if index == locationsController.selectedLocationIndex {
+                if isSelected {
                     Image(systemName: "checkmark")
                         .foregroundStyle(.green)
                 }

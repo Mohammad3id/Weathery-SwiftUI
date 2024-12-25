@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+      "shouldTranslate" : false
+    },
     "%@" : {
       "shouldTranslate" : false
     },
@@ -36,6 +39,16 @@
     },
     "°C" : {
       "shouldTranslate" : false
+    },
+    "Add location" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة موقع"
+          }
+        }
+      }
     },
     "clear" : {
       "extractionState" : "manual",
@@ -99,7 +112,7 @@
       }
     },
     "Hello, World!" : {
-
+      "shouldTranslate" : false
     },
     "Loading" : {
       "localizations" : {
@@ -111,8 +124,25 @@
         }
       }
     },
+    "Location Name" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم الموقع"
+          }
+        }
+      }
+    },
     "Locations" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المواقع"
+          }
+        }
+      }
     },
     "mist" : {
       "extractionState" : "manual",
@@ -155,6 +185,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rain"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حفظ"
           }
         }
       }

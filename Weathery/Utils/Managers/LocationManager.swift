@@ -82,3 +82,7 @@ enum LocationError: Error {
     case requestInProgress
     case couldNotGetLocationInfo
 }
+
+private extension LocationManager {
+    
+}

@@ -9,11 +9,14 @@ import SwiftUICore
 import UIKit
 
 struct SoftBackgroundModifier: ViewModifier {
+    @Environment(\.colorScheme) var colorScheme
     
     func body(content: Content) -> some View {
         ZStack {
-            Color(UIColor.secondarySystemBackground)
-                .ignoresSafeArea()
+            if colorScheme == .light {
+                Color(UIColor.secondarySystemBackground)
+                    .ignoresSafeArea()
+            }        
             content
         }
     }
