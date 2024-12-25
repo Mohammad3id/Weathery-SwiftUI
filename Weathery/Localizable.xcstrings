@@ -111,9 +111,6 @@
         }
       }
     },
-    "Hello, World!" : {
-      "shouldTranslate" : false
-    },
     "Loading" : {
       "localizations" : {
         "ar" : {
