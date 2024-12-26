@@ -8,13 +8,12 @@
 import SwiftUI
 import CoreLocation
 
-@Observable
+@Observable @MainActor
 class WeatherController {
     private let weatherService = WeatherService()
     
     var state: WeatherScreenState = .loading
     
-    @MainActor
     func loadWeatherForCurrentLocation() async {
         let location: CLLocation
         
@@ -32,7 +31,6 @@ class WeatherController {
         )
     }
     
-    @MainActor
     func loadWeatherForLocation(latitude: Double, longitude: Double) async {
         do {
             async let weatherReport = weatherService.getWeatherReport(latitude: latitude, longitude: longitude)

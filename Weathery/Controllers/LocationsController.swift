@@ -8,8 +8,7 @@
 import SwiftUI
 import CoreLocation
 
-@MainActor
-@Observable
+@Observable @MainActor
 class LocationsController {
     private let locationsFile = try! FileManager.default.url(
         for: .documentDirectory,
