@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		019BBEEC2D8F03B50075FBB2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 019BBEEB2D8F03B50075FBB2 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		01FEAF522D0EEF4D00386BD3 /* Weathery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weathery.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		019BBEEB2D8F03B50075FBB2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		01FEAF522D0EEF4D00386BD3 /* Weathery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Weathery.app; path = "/Users/mohammad3id/Development/Projects/iOS/SwiftUI/Weathery/build/Debug-iphoneos/Weathery.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -21,6 +26,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		019BBEEF2D8F03D90075FBB2 /* Showcase */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Showcase;
+			sourceTree = "<group>";
+		};
 		01FEAF542D0EEF4D00386BD3 /* Weathery */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -46,16 +56,9 @@
 			isa = PBXGroup;
 			children = (
 				01FEAF542D0EEF4D00386BD3 /* Weathery */,
-				01FEAF532D0EEF4D00386BD3 /* Products */,
+				019BBEEB2D8F03B50075FBB2 /* README.md */,
+				019BBEEF2D8F03D90075FBB2 /* Showcase */,
 			);
-			sourceTree = "<group>";
-		};
-		01FEAF532D0EEF4D00386BD3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				01FEAF522D0EEF4D00386BD3 /* Weathery.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +77,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				019BBEEF2D8F03D90075FBB2 /* Showcase */,
 				01FEAF542D0EEF4D00386BD3 /* Weathery */,
 			);
 			name = Weathery;
@@ -109,7 +113,7 @@
 			mainGroup = 01FEAF492D0EEF4C00386BD3;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 01FEAF532D0EEF4D00386BD3 /* Products */;
+			productRefGroup = 01FEAF492D0EEF4C00386BD3;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -123,6 +127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				019BBEEC2D8F03B50075FBB2 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

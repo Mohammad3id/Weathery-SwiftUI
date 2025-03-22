@@ -1,6 +1,6 @@
 # Weathery
 
-A native iOS weather app built with SwiftUI with OpenWeatherMap API integration.
+A simple native iOS weather app built with SwiftUI with OpenWeatherMap API integration.
 
 ### Showcase
 
