@@ -21,7 +21,7 @@ struct LocationsView: View {
         
         List {
             LocationListItem(
-                label: "Current location",
+                label: "My location",
                 isSelected: locationsController.selectedLocationIndex == nil
             ) {
                 locationsController.selectedLocationIndex = nil
@@ -59,17 +59,12 @@ struct LocationListItem: View {
     let isSelected: Bool
     let onTap: () -> Void
     
-//    @Environment(LocationsController.self) var locationsController
-//    var index: Int?
-    
     var body: some View {
-//        let location = index == nil ? nil : locationsController.locations[index!]
-        
         Button {
             onTap()
         } label: {
             HStack {
-                Text(label)
+                Text(LocalizedStringKey(label))
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark")

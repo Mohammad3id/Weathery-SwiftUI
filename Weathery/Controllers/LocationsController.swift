@@ -44,12 +44,10 @@ class LocationsController {
         if !FileManager.default.fileExists(atPath: locationsFile.path()) { return }
         
         guard let locationsData = try? Data(contentsOf: locationsFile) else {
-            print("Couldn't get data from locations data file")
             return
         }
         
         guard let decodedLocations = try? JSONDecoder().decode([Location].self, from: locationsData) else {
-            print("Couldn't decode saved locations")
             return
         }
         
@@ -71,8 +69,6 @@ class LocationsController {
         do {
             try saveCurrentLocations()
         } catch {
-            print("Could not save locations")
-            print(error)
             locations.removeLast()
         }
     }
@@ -82,8 +78,6 @@ class LocationsController {
         do {
             try saveCurrentLocations()
         } catch {
-            print("Could not save locations")
-            print(error)
             locations.insert(removedLocation, at: locationIndex)
             return
         }

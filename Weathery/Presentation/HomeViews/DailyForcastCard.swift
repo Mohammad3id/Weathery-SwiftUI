@@ -22,7 +22,7 @@ struct DailyForecastCard: View {
             }
         }
         .padding(24)
-        .background(Color(uiColor: UIColor.secondarySystemBackground))
+        .modifier(SoftCardBackgroundModifier())
         .clipShape(.rect(cornerRadius: 20))
     }
     

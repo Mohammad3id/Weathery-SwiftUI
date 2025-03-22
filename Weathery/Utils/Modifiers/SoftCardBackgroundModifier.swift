@@ -1,5 +1,5 @@
 //
-//  SoftBackgroundModifier.swift
+//  SoftCardBackgroundModifier.swift
 //  Weathery
 //
 //  Created by Mohammad Eid on 22/12/2024.
@@ -8,16 +8,15 @@
 import SwiftUICore
 import UIKit
 
-struct SoftBackgroundModifier: ViewModifier {
+struct SoftCardBackgroundModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     
     func body(content: Content) -> some View {
-        ZStack {
-            if colorScheme == .light {
-                Color(UIColor.secondarySystemBackground)
-                    .ignoresSafeArea()
-            }        
+        if colorScheme == .dark {
             content
+                .background(Color(UIColor.secondarySystemBackground))
+        } else {
+            content.background()
         }
     }
     

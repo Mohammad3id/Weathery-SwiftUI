@@ -58,7 +58,7 @@ struct MapView: View {
                     
                     Task {
                         if let placemark = try? await LocationManager().getPlacemark(latitude: newLocation.latitude, longitude: newLocation.longitude),
-                           let city = placemark.locality,
+                           let city = placemark.administrativeArea,
                            let country = placemark.country {
                             await MainActor.run {
                                 withAnimation {

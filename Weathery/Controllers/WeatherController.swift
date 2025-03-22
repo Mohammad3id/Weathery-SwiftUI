@@ -21,7 +21,6 @@ class WeatherController {
             location = try await LocationManager().requestLocation()
         } catch {
             state = .failure(message: error.localizedDescription)
-            print(error)
             return
         }
         
@@ -36,7 +35,6 @@ class WeatherController {
             async let weatherReport = weatherService.getWeatherReport(latitude: latitude, longitude: longitude)
             state = .success(weatherReport: try await weatherReport)
         } catch {
-            print(error)
             state = .failure(message: error.localizedDescription)
         }
         

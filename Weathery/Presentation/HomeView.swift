@@ -32,7 +32,7 @@ struct HomeView: View {
                 }
             }
             .modifier(SoftBackgroundModifier())
-            .navigationTitle(locationsController.selectedLocation?.label ?? "My location")
+            .navigationTitle(LocalizedStringKey(locationsController.selectedLocation?.label ?? "My location"))
             .toolbar {
                 ToolbarItem {
                     NavigationLink("Locations") {
